@@ -1,0 +1,50 @@
+   # Check https://goreleaser.com/customization/env/
+env:
+  - GO111MODULE=on
+  - GOPROXY=https://goproxy.io
+
+# Check https://goreleaser.com/customization/hooks/
+before:
+  hooks:
+  - go mod download
+
+# Check https://goreleaser.com/customization/build/
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+    goarch:
+      - amd64
+    ignore:
+      - goos: darwin
+        goarch: 386
+      - goos: linux
+        goarch: arm
+        goarm: 7
+      - goarm: mips64
+        gomips: hardfloat
+    # Run upx after build finished
+    hooks:
+      post: ./upx.sh
+
+# Check https://goreleaser.com/customization/archive/
+archives:
+  - name_template: "homebrew-mason-cli_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    replacements:
+      amd64: x86_64
+
+project_name: homebrew-mason-cli
+
+# Check https://goreleaser.com/customization/homebrew/
+brews:
+  - homepage: 'https://github.com/cirbuk/homebrew-mason-cli'
+    description: 'Binary distribution using homebrew.'
+    folder: Formula
+    commit_author:
+      name: saurabmitra
+      email: saurab.mitra@kubric.io
+    tap:
+      owner: mason
+      name: homebrew-mason-cli

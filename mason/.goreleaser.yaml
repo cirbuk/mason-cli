@@ -25,9 +25,6 @@ builds:
         goarm: 7
       - goarm: mips64
         gomips: hardfloat
-    # Run upx after build finished
-    hooks:
-      post: ./upx.sh
 
 # Check https://goreleaser.com/customization/archive/
 archives:
@@ -46,5 +43,5 @@ brews:
       name: saurabmitra
       email: saurab.mitra@kubric.io
     tap:
-      owner: mason
-      name: homebrew-mason-cli
+      owner: cirbuk
+      name: homebrew-mason

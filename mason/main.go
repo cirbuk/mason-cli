@@ -153,6 +153,9 @@ func handleProject(projectCmd *flag.FlagSet, action *string, all *bool, projectI
 	if *action == "delete" {
 		deleteProject(*projectId)
 	}
+	if (*action == "create" || *action == "update") {
+	    createOrUpdateProject(*contentPath)
+	}
 
 }
 
@@ -185,6 +188,12 @@ func handleSchema(schemaCmd *flag.FlagSet, action *string, all *bool, schemaId *
 	}
 	if *action == "delete" {
 		deleteSchema(*schemaId)
+	}
+	if *action == "create" {
+		createSchema(*contentPath)
+	}
+	if *action == "update" {
+		updateSchema(*contentPath)
 	}
 
 }

@@ -153,8 +153,8 @@ func handleProject(projectCmd *flag.FlagSet, action *string, all *bool, projectI
 	if *action == "delete" {
 		deleteProject(*projectId)
 	}
-	if (*action == "create" || *action == "update") {
-	    createOrUpdateProject(*contentPath)
+	if *action == "create" || *action == "update" {
+		createOrUpdateProject(*contentPath)
 	}
 
 }

@@ -9,7 +9,7 @@ import (
 
 var ACTIVE_TOKEN = "MASON_ACTIVE_TOKEN"
 
-var CONFIG_PATH = "local_conf.json"
+var CONFIG_PATH = "/etc/mason_conf.json"
 
 type Masonconfig struct {
 	MasonToken string

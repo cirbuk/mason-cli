@@ -28,7 +28,7 @@ builds:
 
 # Check https://goreleaser.com/customization/archive/
 archives:
-  - name_template: "homebrew-mason-cli_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+  - name_template: "homebrew-mason_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     replacements:
       amd64: x86_64
 
@@ -36,7 +36,7 @@ project_name: homebrew-mason
 
 # Check https://goreleaser.com/customization/homebrew/
 brews:
-  - homepage: 'https://github.com/cirbuk/homebrew-mason-cli'
+  - homepage: 'https://github.com/cirbuk/homebrew-mason'
     description: 'Binary distribution using homebrew.'
     folder: Formula
     commit_author:

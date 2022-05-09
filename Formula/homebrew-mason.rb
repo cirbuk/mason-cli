@@ -5,11 +5,11 @@
 class HomebrewMason < Formula
   desc "Binary distribution using homebrew."
   homepage "https://github.com/cirbuk/homebrew-mason"
-  version "0.1.2"
+  version "0.1.4"
 
   on_macos do
-    url "https://github.com/cirbuk/homebrew-mason/releases/download/v0.1.2/homebrew-mason_0.1.2_darwin_x86_64.tar.gz"
-    sha256 "4e12614c341ff51ba8e912f429d53f8eec4f9035f8eec9924329ff6a27494741"
+    url "https://github.com/cirbuk/homebrew-mason/releases/download/v0.1.4/homebrew-mason_0.1.4_darwin_x86_64.tar.gz"
+    sha256 "7c3bbd28466466f2f54f4fcd6d7d40809c208d5114060b1d3a34f4078b028c13"
 
     def install
       bin.install "homebrew-mason"
@@ -28,8 +28,8 @@ class HomebrewMason < Formula
 
   on_linux do
     if Hardware::CPU.intel?
-      url "https://github.com/cirbuk/homebrew-mason/releases/download/v0.1.2/homebrew-mason_0.1.2_linux_x86_64.tar.gz"
-      sha256 "a575002fdf0f743c2b409723ae3aa39379b3aa1c25a268004c18e598586b7156"
+      url "https://github.com/cirbuk/homebrew-mason/releases/download/v0.1.4/homebrew-mason_0.1.4_linux_x86_64.tar.gz"
+      sha256 "c1da4dfbafa70ffaa81763d4ed2f1947d643116059a63fcd9cc12242d557e739"
 
       def install
         bin.install "homebrew-mason"

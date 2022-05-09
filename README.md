@@ -17,7 +17,7 @@ git tag -a v0.1.0 -m "First release"
 git push origin v0.1.0
 ```
 
-- Run command from mason folder after making sure **repo working tree is clean**
+- Run command from `mason` folder after making sure **repo working tree is clean** and **`dist` folder from earlier build is removed**
 ```
 goreleaser release
 ```

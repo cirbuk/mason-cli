@@ -22,3 +22,5 @@ git push origin v0.1.0
 goreleaser release
 ```
 
+- This updates the .rb script in Formula directory which is available as a Formula from this tap
+

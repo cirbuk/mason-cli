@@ -5,10 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
-	// 	"strings"
 )
 
 var API_HOST_BETA = "https://genie-beta.kubric.io"
@@ -31,7 +29,7 @@ func checkToken() Masonconfig {
 	configBytes := readFileJson(CONFIG_PATH)
 	err := json.Unmarshal(configBytes, &config)
 	if err != nil {
-		log.Fatalf("\nNo token found, please complete mason init and mason login first\n")
+		fmt.Printf("\nNo token found, please complete mason init and mason login first\n")
 		os.Exit(1)
 	}
 	return config
@@ -40,7 +38,7 @@ func checkToken() Masonconfig {
 func readFileJson(path string) []byte {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
-		log.Panicf("failed reading data from file: %s", err)
+		fmt.Printf("failed reading data from file: %s", err)
 	}
 	return data
 }
@@ -50,12 +48,12 @@ func writeFileJson(path string, content []byte) bool {
 	file, err := os.Create(path)
 
 	if err != nil {
-		log.Fatalf("failed creating file: %s", err)
+		fmt.Printf("failed creating file: %s", err)
 	}
 	defer file.Close()
 	err = ioutil.WriteFile(path, content, 0644)
 	if err != nil {
-		log.Fatalf("failed writing to file: %s", err)
+		fmt.Printf("failed writing to file: %s", err)
 		return false
 	}
 	return true

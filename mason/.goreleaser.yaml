@@ -36,7 +36,7 @@ project_name: mason
 
 # Check https://goreleaser.com/customization/homebrew/
 brews:
-  - homepage: 'https://github.com/cirbuk/homebrew-mason'
+  - homepage: 'https://github.com/cirbuk/mason-cli'
     description: 'Binary distribution using homebrew.'
     name: mason
     folder: Formula

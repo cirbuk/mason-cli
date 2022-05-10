@@ -38,6 +38,7 @@ project_name: homebrew-mason
 brews:
   - homepage: 'https://github.com/cirbuk/homebrew-mason'
     description: 'Binary distribution using homebrew.'
+    name: mason
     folder: Formula
     commit_author:
       name: saurabmitra

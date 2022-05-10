@@ -45,4 +45,4 @@ brews:
       email: saurab.mitra@kubric.io
     tap:
       owner: cirbuk
-      name: homebrew-mason
+      name: mason-cli

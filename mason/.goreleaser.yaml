@@ -32,7 +32,7 @@ archives:
     replacements:
       amd64: x86_64
 
-project_name: homebrew-mason
+project_name: mason
 
 # Check https://goreleaser.com/customization/homebrew/
 brews:

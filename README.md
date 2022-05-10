@@ -135,6 +135,114 @@ mason [project|schema|content] -action [create|update|get|delete] {specific flag
     mason content -action get -all true
     ```
 
+## SAMPLE USAGE
+
+- To create schema for carousel post in Online Shop
+
+Command : `mason schema -action create -path payload.json`
+
+Contents of payload.json file :
+
+```
+   {
+  "content_type": {
+    "title": "StoreTopCarousel",
+    "name": "StoreTopCarousel",
+    "type": "document",
+    "scope": "workspace",
+    "fields": [
+      {
+        "title": "Product Text",
+        "name": "product_text",
+        "field_type": "string",
+        "of": null,
+        "options": {}
+      },
+      {
+        "title": "Product Image",
+        "name": "image",
+        "field_type": "string",
+        "of": null,
+        "options": {}
+      },
+      {
+        "title": "Description",
+        "name": "desc",
+        "field_type": "string",
+        "of": null,
+        "options": {}
+      },
+      {
+        "title": "Background Color",
+        "name": "bg_color",
+        "field_type": "string",
+        "of": null,
+        "options": {}
+      }
+    ]
+  }
+}
+```
+
+- To update the above created content, adding Contrast color field
+
+Command : `mason schema -action update -path payload.json`
+
+Contents of payload.json file :
+
+```
+{
+  "content_type": {
+    "id": "fe85ac4c-66d1-456e-996a-3cb55cf76cf5",
+    "title": "StoreTopCarousel",
+    "name": "StoreTopCarousel",
+    "type": "document",
+    "workspace_id": "fe85ac4c-66d1-456e-996a-3cb55cf76cf5",
+    "created_by": "saurab.mitra@kubric.io",
+    "scope": "workspace",
+    "fields": [
+      {
+        "title": "Product Text",
+        "name": "product_text",
+        "field_type": "string",
+        "of": null,
+        "options": {}
+      },
+      {
+        "title": "Product Image",
+        "name": "image",
+        "field_type": "string",
+        "of": null,
+        "options": {}
+      },
+      {
+        "title": "Description",
+        "name": "desc",
+        "field_type": "string",
+        "of": null,
+        "options": {}
+      },
+      {
+        "title": "Background Color",
+        "name": "bg_color",
+        "field_type": "string",
+        "of": null,
+        "options": {}
+      },
+      {
+        "title": "Contrast Color",
+        "name": "cs_color",
+        "field_type": "string",
+        "of": null,
+        "options": {}
+      }
+    ]
+  }
+}
+```
+
+
+
 
 
 

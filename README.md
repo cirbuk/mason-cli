@@ -58,7 +58,7 @@ sudo mason login -env [prod|beta] -token [user JWT token for a workspace from in
 
 Example :
 ```
-sudo mason login -env beta -token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiZmVlZCIsInVpZCI6IjFlZWM4Y2MwLThiZTMtNGUwOC1hMWJmLTE4MzdmNmVmYTBhNCIsIndvcmtzcGFjZV9pZCI6ImZjZTJiNGQxLTI2NTMtNGU2OC1iMDk0LTNhYmYwMDdkMjRkZSIsInVzZXJpZCI6InNhdXJhYi5taXRyYUBrdWJyaWMuaW8ifQ.7lxQ6vaf2WiITbfRN_1-sM1KVQdDUV2BfIPcUvWhYmU
+sudo mason login -env beta -token <api-token>
 ```
 
 - Logout active user from Mason cli
@@ -67,7 +67,7 @@ sudo mason logout
 ```
 
 - Entity related usage :
-    In general the commands are of the form
+You can use commands using the below pattern
 ```
 mason [project|schema|content] -action [create|update|get|delete] {specific flags and their values  - all|id|path}
 ```

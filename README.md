@@ -32,7 +32,7 @@ goreleaser release
 
 ## INSTALLATION
 
-- Tap the homebrew repo at https://github.com/cirbuk/homebrew-mason
+- Tap the homebrew repo at https://github.com/cirbuk/mason
 
 ```
 brew tap cirbuk/mason
@@ -41,98 +41,98 @@ brew tap cirbuk/mason
 - Install the formula
 
 ```
-brew install homebrew-mason
+brew install mason
 ```
 
 ## USAGE
 
 - Signup for Mason and get your access token
 ```
-homebrew-mason init
+mason init
 ```
 
 - Login to mason-cli with your token and environment
 ```
-sudo homebrew-mason login -env [prod|beta] -token [user JWT token for a workspace from init step]
+sudo mason login -env [prod|beta] -token [user JWT token for a workspace from init step]
 ```
 
 Example :
 ```
-sudo homebrew-mason login -env beta -token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiZmVlZCIsInVpZCI6IjFlZWM4Y2MwLThiZTMtNGUwOC1hMWJmLTE4MzdmNmVmYTBhNCIsIndvcmtzcGFjZV9pZCI6ImZjZTJiNGQxLTI2NTMtNGU2OC1iMDk0LTNhYmYwMDdkMjRkZSIsInVzZXJpZCI6InNhdXJhYi5taXRyYUBrdWJyaWMuaW8ifQ.7lxQ6vaf2WiITbfRN_1-sM1KVQdDUV2BfIPcUvWhYmU
+sudo mason login -env beta -token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiZmVlZCIsInVpZCI6IjFlZWM4Y2MwLThiZTMtNGUwOC1hMWJmLTE4MzdmNmVmYTBhNCIsIndvcmtzcGFjZV9pZCI6ImZjZTJiNGQxLTI2NTMtNGU2OC1iMDk0LTNhYmYwMDdkMjRkZSIsInVzZXJpZCI6InNhdXJhYi5taXRyYUBrdWJyaWMuaW8ifQ.7lxQ6vaf2WiITbfRN_1-sM1KVQdDUV2BfIPcUvWhYmU
 ```
 
 - Logout active user from Mason cli
 ```
-sudo homebrew-mason logout
+sudo mason logout
 ```
 
 - Entity related usage :
     In general the commands are of the form
 ```
-homebrew-mason [project|schema|content] -action [create|update|get|delete] {specific flags and their values  - all|id|path}
+mason [project|schema|content] -action [create|update|get|delete] {specific flags and their values  - all|id|path}
 ```
 
 - Project related usage :
     - Create a project
     ```
-    homebrew-mason project -action create -path {path_to_file_with_JSON_payload}
+    mason project -action create -path {path_to_file_with_JSON_payload}
     ```
 
     - Update a project
     ```
-    homebrew-mason project -action update -path {path_to_file_with_JSON_payload}
+    mason project -action update -path {path_to_file_with_JSON_payload}
     ```
 
     - Get a project
     ```
-    homebrew-mason project -action get -id {project_id}
+    mason project -action get -id {project_id}
     ```
 
     - Get all projects
     ```
-    homebrew-mason project -action get -all true
+    mason project -action get -all true
     ```
 
     - Delete a project
     ```
-    homebrew-mason project -action delete -id {project_id}
+    mason project -action delete -id {project_id}
     ```
 
 - Schema related usage :
     - Create a schema
     ```
-    homebrew-mason schema -action create -path {path_to_file_with_JSON_payload}
+    mason schema -action create -path {path_to_file_with_JSON_payload}
     ```
 
     - Update a schema
     ```
-    homebrew-mason schema -action update -path {path_to_file_with_JSON_payload}
+    mason schema -action update -path {path_to_file_with_JSON_payload}
     ```
 
     - Get a schema
     ```
-    homebrew-mason schema -action get -id {schema_id}
+    mason schema -action get -id {schema_id}
     ```
 
     - Get all schemas
     ```
-    homebrew-mason schema -action get -all true
+    mason schema -action get -all true
     ```
 
     - Delete a schema
     ```
-    homebrew-mason schema -action delete -id {schema_id}
+    mason schema -action delete -id {schema_id}
     ```
 
 - Content related usage :
     - Get content by id
     ```
-    homebrew-mason content -action get -id {content_id}
+    mason content -action get -id {content_id}
     ```
 
     - Get all content
     ```
-    homebrew-mason content -action get -all true
+    mason content -action get -all true
     ```
 
 

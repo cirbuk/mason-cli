@@ -28,7 +28,7 @@ builds:
 
 # Check https://goreleaser.com/customization/archive/
 archives:
-  - name_template: "homebrew-mason_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+  - name_template: "mason-cli_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     replacements:
       amd64: x86_64
 

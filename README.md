@@ -53,17 +53,17 @@ mason init
 
 - Login to mason-cli with your token and environment
 ```
-sudo mason login -env [prod|beta] -token [user JWT token for a workspace from init step]
+mason login -env [prod|beta] -token [user JWT token for a workspace from init step]
 ```
 
 Example :
 ```
-sudo mason login -env beta -token <api-token>
+mason login -env beta -token <api-token>
 ```
 
 - Logout active user from Mason cli
 ```
-sudo mason logout
+mason logout
 ```
 
 - Entity related usage :

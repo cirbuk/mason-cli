@@ -44,7 +44,6 @@ func readFileJson(path string) []byte {
 }
 
 func writeFileJson(path string, content []byte) bool {
-	fmt.Printf("\nWriting %s content to %s path\n", content, path)
 	file, err := os.Create(path)
 
 	if err != nil {
@@ -62,7 +61,7 @@ func writeFileJson(path string, content []byte) bool {
 func getProjects(projectId string, all bool, output string) {
 	config := checkToken()
 	token := config.MasonToken
-	fmt.Printf("Called Get Projects with token %s projectId %s and all %t\n", token, projectId, all)
+	fmt.Printf("Called Get Projects with token %s projectId %s and all %t and outputPath %s\n", token, projectId, all, output)
 	client := &http.Client{}
 	endpoint := getApiHost() + "/v1/project"
 	req, err := http.NewRequest("GET", endpoint, nil)
@@ -84,8 +83,13 @@ func getProjects(projectId string, all bool, output string) {
 		panic(err)
 	}
 	json.Indent(&prettyJSON, body, "", "\t")
-	fmt.Println(resp.Status)
-	fmt.Println(prettyJSON.String())
+	if output == "" {
+		fmt.Println(resp.Status)
+		fmt.Println(prettyJSON.String())
+	} else {
+		fmt.Printf("\nWriting output to %s\n", output)
+		writeFileJson(output, prettyJSON.Bytes())
+	}
 }
 
 func createOrUpdateProject(contentPath string, output string) {
@@ -110,8 +114,13 @@ func createOrUpdateProject(contentPath string, output string) {
 		panic(err)
 	}
 	json.Indent(&prettyJSON, body, "", "\t")
-	fmt.Println(resp.Status)
-	fmt.Println(prettyJSON.String())
+	if output == "" {
+		fmt.Println(resp.Status)
+		fmt.Println(prettyJSON.String())
+	} else {
+		fmt.Printf("\nWriting output to %s\n", output)
+		writeFileJson(output, prettyJSON.Bytes())
+	}
 }
 
 func deleteProject(projectId string, output string) {
@@ -139,8 +148,13 @@ func deleteProject(projectId string, output string) {
 		panic(err)
 	}
 	json.Indent(&prettyJSON, body, "", "\t")
-	fmt.Println(resp.Status)
-	fmt.Println(prettyJSON.String())
+	if output == "" {
+		fmt.Println(resp.Status)
+		fmt.Println(prettyJSON.String())
+	} else {
+		fmt.Printf("\nWriting output to %s\n", output)
+		writeFileJson(output, prettyJSON.Bytes())
+	}
 }
 
 func getContent(contentId string, all bool, output string) {
@@ -168,8 +182,13 @@ func getContent(contentId string, all bool, output string) {
 		panic(err)
 	}
 	json.Indent(&prettyJSON, body, "", "\t")
-	fmt.Println(resp.Status)
-	fmt.Println(prettyJSON.String())
+	if output == "" {
+		fmt.Println(resp.Status)
+		fmt.Println(prettyJSON.String())
+	} else {
+		fmt.Printf("\nWriting output to %s\n", output)
+		writeFileJson(output, prettyJSON.Bytes())
+	}
 }
 
 func getSchema(schemaId string, all bool, output string) {
@@ -197,8 +216,13 @@ func getSchema(schemaId string, all bool, output string) {
 		panic(err)
 	}
 	json.Indent(&prettyJSON, body, "", "\t")
-	fmt.Println(resp.Status)
-	fmt.Println(prettyJSON.String())
+	if output == "" {
+		fmt.Println(resp.Status)
+		fmt.Println(prettyJSON.String())
+	} else {
+		fmt.Printf("\nWriting output to %s\n", output)
+		writeFileJson(output, prettyJSON.Bytes())
+	}
 }
 
 func createSchema(contentPath string, output string) {
@@ -223,8 +247,13 @@ func createSchema(contentPath string, output string) {
 		panic(err)
 	}
 	json.Indent(&prettyJSON, body, "", "\t")
-	fmt.Println(resp.Status)
-	fmt.Println(prettyJSON.String())
+	if output == "" {
+		fmt.Println(resp.Status)
+		fmt.Println(prettyJSON.String())
+	} else {
+		fmt.Printf("\nWriting output to %s\n", output)
+		writeFileJson(output, prettyJSON.Bytes())
+	}
 }
 
 func updateSchema(contentPath string, output string) {
@@ -249,8 +278,13 @@ func updateSchema(contentPath string, output string) {
 		panic(err)
 	}
 	json.Indent(&prettyJSON, body, "", "\t")
-	fmt.Println(resp.Status)
-	fmt.Println(prettyJSON.String())
+	if output == "" {
+		fmt.Println(resp.Status)
+		fmt.Println(prettyJSON.String())
+	} else {
+		fmt.Printf("\nWriting output to %s\n", output)
+		writeFileJson(output, prettyJSON.Bytes())
+	}
 }
 
 func deleteSchema(schemaId string, output string) {
@@ -278,6 +312,11 @@ func deleteSchema(schemaId string, output string) {
 		panic(err)
 	}
 	json.Indent(&prettyJSON, body, "", "\t")
-	fmt.Println(resp.Status)
-	fmt.Println(prettyJSON.String())
+	if output == "" {
+		fmt.Println(resp.Status)
+		fmt.Println(prettyJSON.String())
+	} else {
+		fmt.Printf("\nWriting output to %s\n", output)
+		writeFileJson(output, prettyJSON.Bytes())
+	}
 }

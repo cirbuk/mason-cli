@@ -29,20 +29,20 @@ func main() {
 	allProject := projectCmd.Bool("all", false, "Get all projects")
 	idProject := projectCmd.String("id", "", "Mason Project ID")
 	pathProjectJson := projectCmd.String("path", "", "Relative file path of JSON for project create/update")
-	outputProject := projectCmd.String("o", "", "Relative path to write output to")
+	outputProject := projectCmd.String("out", "", "Relative path to write output to")
 
 	schemaCmd := flag.NewFlagSet("schema", flag.ExitOnError)
 	actionSchema := schemaCmd.String("action", "", "Please  enter action from [create,update,delete,get]")
 	allSchema := schemaCmd.Bool("all", false, "Get all schemas")
 	idSchema := schemaCmd.String("id", "", "Mason Schema ID")
 	pathSchemaJson := schemaCmd.String("path", "", "Relative file path of JSON for schema create/update")
-	outputSchema := schemaCmd.String("o", "", "Relative path to write output to")
+	outputSchema := schemaCmd.String("out", "", "Relative path to write output to")
 
 	contentCmd := flag.NewFlagSet("content", flag.ExitOnError)
 	actionContent := contentCmd.String("action", "", "Please  enter action from [get]")
 	allContent := contentCmd.Bool("all", false, "Get all content")
 	idContent := contentCmd.String("id", "", "Mason Content ID")
-	outputContent := contentCmd.String("o", "", "Relative path to write output to")
+	outputContent := contentCmd.String("out", "", "Relative path to write output to")
 
 	if len(os.Args) < 2 {
 		println("expected a subcommand from ['init', 'login', 'logout', 'project', 'schema', 'content']")
@@ -147,6 +147,7 @@ func handleProject(projectCmd *flag.FlagSet, action *string, all *bool, projectI
 	}
 	println("Initiated Project Flow")
 	println(*action)
+	println(*outputPath)
 	if *action == "get" {
 		getProjects(*projectId, *all, *outputPath)
 	}
@@ -195,7 +196,6 @@ func handleSchema(schemaCmd *flag.FlagSet, action *string, all *bool, schemaId *
 	if *action == "update" {
 		updateSchema(*contentPath, *outputPath)
 	}
-
 }
 
 func handleContent(contentCmd *flag.FlagSet, action *string, all *bool, contentId *string, outputPath *string) {

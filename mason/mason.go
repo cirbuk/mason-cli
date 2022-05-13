@@ -26,6 +26,7 @@ func getApiHost() string {
 
 func checkToken() Masonconfig {
 	var config Masonconfig
+	CONFIG_PATH := getConfigPath()
 	configBytes := readFileJson(CONFIG_PATH)
 	err := json.Unmarshal(configBytes, &config)
 	if err != nil {

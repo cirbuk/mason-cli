@@ -8,8 +8,6 @@ import (
 
 var ACTIVE_TOKEN = "MASON_ACTIVE_TOKEN"
 
-var CONFIG_PATH = "/etc/mason_conf.json"
-
 type Masonconfig struct {
 	MasonToken string
 	MasonEnv   string
@@ -69,6 +67,16 @@ func main() {
 
 }
 
+func getConfigPath() string {
+	HOME_USER_DIR, err := os.UserHomeDir()
+	if err != nil {
+		println("Couldn't get user home dir to set config")
+		os.Exit(1)
+	}
+	var CONFIG_PATH = HOME_USER_DIR + "/mason_conf.json"
+	return CONFIG_PATH
+}
+
 func handleInit(initCmd *flag.FlagSet) {
 	initCmd.Parse(os.Args[2:])
 	// redirect to Mason devhub here
@@ -79,6 +87,7 @@ func handleInit(initCmd *flag.FlagSet) {
 func handleLogout(logoutCmd *flag.FlagSet) {
 	logoutCmd.Parse(os.Args[2:])
 	println("Initiated Logout Flow")
+	CONFIG_PATH := getConfigPath()
 	var config []byte
 	bytes, err := json.Marshal(config)
 	if err != nil {
@@ -97,6 +106,7 @@ func handleLogout(logoutCmd *flag.FlagSet) {
 
 func handleLogin(loginCmd *flag.FlagSet, loginToken *string, env *string) {
 	loginCmd.Parse(os.Args[2:])
+	CONFIG_PATH := getConfigPath()
 	if *loginToken == "" {
 		println("Please enter a valid token from Mason DevHub")
 		loginCmd.PrintDefaults()

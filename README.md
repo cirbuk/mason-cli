@@ -69,7 +69,7 @@ mason logout
 - Entity related usage :
 You can use commands using the below pattern
 ```
-mason [project|schema|content] -action [create|update|get|delete] {specific flags and their values  - all|id|path}
+mason [project|schema|content] -action [create|update|get|delete] {specific flags and their values  - all|id|out|path}
 ```
 
 - Project related usage :
@@ -97,6 +97,10 @@ mason [project|schema|content] -action [create|update|get|delete] {specific flag
     ```
     mason project -action delete -id {project_id}
     ```
+    -  Write operation output to file
+    ```
+    mason project -action delete -out {output_file_path} -id {project_id}
+    ```
 
 - Schema related usage :
     - Create a schema
@@ -123,6 +127,10 @@ mason [project|schema|content] -action [create|update|get|delete] {specific flag
     ```
     mason schema -action delete -id {schema_id}
     ```
+    -  Write operation output to file
+    ```
+    mason project -action delete -out {output_file_path} -id {project_id}
+    ```
 
 - Content related usage :
     - Get content by id
@@ -133,6 +141,10 @@ mason [project|schema|content] -action [create|update|get|delete] {specific flag
     - Get all content
     ```
     mason content -action get -all true
+    ```
+    -  Write operation output to file
+    ```
+    mason project -action delete -out {output_file_path} -id {project_id}
     ```
 
 ## SAMPLE USAGE

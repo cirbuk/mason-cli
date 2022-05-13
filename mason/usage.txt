@@ -1,0 +1,79 @@
+You can use commands using the below pattern
+
+mason [project|schema|content] -action [create|update|get|delete] {specific flags and their values  - all|id|out|path}
+
+
+- Project related usage :
+    - Create a project
+    
+    mason project -action create -path {path_to_file_with_JSON_payload}
+    
+
+    - Update a project
+    
+    mason project -action update -path {path_to_file_with_JSON_payload}
+    
+
+    - Get a project
+    
+    mason project -action get -id {project_id}
+    
+
+    - Get all projects
+    
+    mason project -action get -all true
+    
+
+    - Delete a project
+    
+    mason project -action delete -id {project_id}
+    
+    -  Write operation output to file
+    
+    mason project -action delete -out {output_file_path} -id {project_id}
+    
+
+- Schema related usage :
+    - Create a schema
+    
+    mason schema -action create -path {path_to_file_with_JSON_payload}
+    
+
+    - Update a schema
+    
+    mason schema -action update -path {path_to_file_with_JSON_payload}
+    
+
+    - Get a schema
+    
+    mason schema -action get -id {schema_id}
+    
+
+    - Get all schemas
+    
+    mason schema -action get -all true
+    
+
+    - Delete a schema
+    
+    mason schema -action delete -id {schema_id}
+    
+    -  Write operation output to file
+    
+    mason project -action delete -out {output_file_path} -id {project_id}
+    
+
+- Content related usage :
+    - Get content by id
+    
+    mason content -action get -id {content_id}
+    
+
+    - Get all content
+    
+    mason content -action get -all true
+    
+    -  Write operation output to file
+    
+    mason project -action delete -out {output_file_path} -id {project_id}
+    

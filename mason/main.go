@@ -14,6 +14,9 @@ type Masonconfig struct {
 }
 
 func main() {
+
+	helpCmd := flag.NewFlagSet("help", flag.ExitOnError)
+
 	initCmd := flag.NewFlagSet("init", flag.ExitOnError)
 
 	loginCmd := flag.NewFlagSet("login", flag.ExitOnError)
@@ -43,12 +46,14 @@ func main() {
 	outputContent := contentCmd.String("out", "", "Relative path to write output to")
 
 	if len(os.Args) < 2 {
-		println("expected a subcommand from ['init', 'login', 'logout', 'project', 'schema', 'content']")
+		println("expected a subcommand from ['help', init', 'login', 'logout', 'project', 'schema', 'content']")
 		os.Exit(1)
 	}
 
 	//look at the 2nd argument's value
 	switch os.Args[1] {
+	case "help": // if its the 'help' command
+		handleHelp(helpCmd)
 	case "init": // if its the 'init' command
 		handleInit(initCmd)
 	case "login": // if its the 'login' command
@@ -75,6 +80,13 @@ func getConfigPath() string {
 	}
 	var CONFIG_PATH = HOME_USER_DIR + "/.mason_conf.json"
 	return CONFIG_PATH
+}
+
+func handleHelp(initCmd *flag.FlagSet) {
+	initCmd.Parse(os.Args[2:])
+	// redirect to Mason devhub here
+	content := readFileJson("usage.txt")
+	println(string(content))
 }
 
 func handleInit(initCmd *flag.FlagSet) {

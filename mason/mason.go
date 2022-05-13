@@ -48,18 +48,18 @@ func writeFileJson(path string, content []byte) bool {
 	file, err := os.Create(path)
 
 	if err != nil {
-		fmt.Printf("failed creating file: %s", err)
+		fmt.Printf("\nfailed creating file: %s\n", err)
 	}
 	defer file.Close()
 	err = ioutil.WriteFile(path, content, 0644)
 	if err != nil {
-		fmt.Printf("failed writing to file: %s", err)
+		fmt.Printf("\nfailed writing to file: %s\n", err)
 		return false
 	}
 	return true
 }
 
-func getProjects(projectId string, all bool) {
+func getProjects(projectId string, all bool, output string) {
 	config := checkToken()
 	token := config.MasonToken
 	fmt.Printf("Called Get Projects with token %s projectId %s and all %t\n", token, projectId, all)
@@ -88,7 +88,7 @@ func getProjects(projectId string, all bool) {
 	fmt.Println(prettyJSON.String())
 }
 
-func createOrUpdateProject(contentPath string) {
+func createOrUpdateProject(contentPath string, output string) {
 	config := checkToken()
 	token := config.MasonToken
 	client := &http.Client{}
@@ -114,7 +114,7 @@ func createOrUpdateProject(contentPath string) {
 	fmt.Println(prettyJSON.String())
 }
 
-func deleteProject(projectId string) {
+func deleteProject(projectId string, output string) {
 	config := checkToken()
 	token := config.MasonToken
 	fmt.Printf("Called Delete Project with token %s projectId %s\n", token, projectId)
@@ -143,7 +143,7 @@ func deleteProject(projectId string) {
 	fmt.Println(prettyJSON.String())
 }
 
-func getContent(contentId string, all bool) {
+func getContent(contentId string, all bool, output string) {
 	config := checkToken()
 	token := config.MasonToken
 	fmt.Printf("Called Get Content with token %s contentId %s and all %t\n", token, contentId, all)
@@ -172,7 +172,7 @@ func getContent(contentId string, all bool) {
 	fmt.Println(prettyJSON.String())
 }
 
-func getSchema(schemaId string, all bool) {
+func getSchema(schemaId string, all bool, output string) {
 	config := checkToken()
 	token := config.MasonToken
 	fmt.Printf("Called Get Schema with token %s schemaId %s and all %t\n", token, schemaId, all)
@@ -201,7 +201,7 @@ func getSchema(schemaId string, all bool) {
 	fmt.Println(prettyJSON.String())
 }
 
-func createSchema(contentPath string) {
+func createSchema(contentPath string, output string) {
 	config := checkToken()
 	token := config.MasonToken
 	client := &http.Client{}
@@ -227,7 +227,7 @@ func createSchema(contentPath string) {
 	fmt.Println(prettyJSON.String())
 }
 
-func updateSchema(contentPath string) {
+func updateSchema(contentPath string, output string) {
 	config := checkToken()
 	token := config.MasonToken
 	client := &http.Client{}
@@ -253,7 +253,7 @@ func updateSchema(contentPath string) {
 	fmt.Println(prettyJSON.String())
 }
 
-func deleteSchema(schemaId string) {
+func deleteSchema(schemaId string, output string) {
 	config := checkToken()
 	token := config.MasonToken
 	fmt.Printf("Called Delete Project with token %s schemaId %s\n", token, schemaId)

@@ -73,7 +73,7 @@ func getConfigPath() string {
 		println("Couldn't get user home dir to set config")
 		os.Exit(1)
 	}
-	var CONFIG_PATH = HOME_USER_DIR + "/mason_conf.json"
+	var CONFIG_PATH = HOME_USER_DIR + "/.mason_conf.json"
 	return CONFIG_PATH
 }
 

@@ -1,5 +1,8 @@
 # mason-cli
-Command line tool to interact with Mason systems
+Mason CLI helps you build Mason apps & plugins. Use Mason CLI to supercharge your plugin development workflow.
+
+Mason CLI can be run and installed on Mac, Linux and Windows systems.
+
 
 ## DEVELOPMENT
 
@@ -253,6 +256,11 @@ Contents of payload.json file :
 }
 ```
 
+## Help 🖐
+
+If you encounter issues using the CLI or have feedback you'd like to share with us, below are some options:
+
+- [Open a GitHub issue](https://github.com/cirbuk/mason-cli/issues) - To report bugs or request new features, open an issue in the Mason CLI repository.
 
 
 

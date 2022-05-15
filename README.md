@@ -35,7 +35,7 @@ goreleaser release
 ```
 
 ## Installation
-Check out our [installation steps](docs/users/installation.md).
+Check out the [installation steps](docs/users/installation.md).
 
 ## Usage
 

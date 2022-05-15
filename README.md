@@ -4,7 +4,7 @@ Mason CLI helps you build Mason apps & plugins. Use Mason CLI to supercharge you
 Mason CLI can be run and installed on Mac, Linux and Windows systems.
 
 
-## DEVELOPMENT
+## Development
 
 - Install GoReleaser Command Line Tool on your local from [here](https://goreleaser.com/install/)
 
@@ -31,23 +31,10 @@ export GITHUB_TOKEN="YOUR_GH_TOKEN"
 goreleaser release
 ```
 
-- This updates the .rb script in Formula directory which is available as a Formula from this tap
+## Installation
+Check out our [installation steps](docs/users/installation.md).
 
-## INSTALLATION
-
-- Tap the homebrew repo at https://github.com/cirbuk/mason
-
-```
-brew tap cirbuk/mason-cli
-```
-
-- Install the formula
-
-```
-brew install mason
-```
-
-## USAGE
+## Usage
 
 - Signup for Mason and get your access token
 ```
@@ -150,7 +137,7 @@ mason [project|schema|content] -action [create|update|get|delete] {specific flag
     mason project -action delete -out {output_file_path} -id {project_id}
     ```
 
-## SAMPLE USAGE
+## Sample Usage
 
 - To create schema for carousel post in Online Shop
 

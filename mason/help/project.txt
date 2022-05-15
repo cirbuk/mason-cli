@@ -4,9 +4,10 @@ USAGE:
    Initialize a new mason project or app
 
 OPTIONS :
-    -action create -path {path_to_file_with_JSON_payload} Create a new mason project
-    -action update -path {path_to_file_with_JSON_payload} Update a project
-    -action get -id {project_id} Get a project
-    -action get -all true Get all projects
-    -action delete -id {project_id} Delete a project
-    -action delete -out {output_file_path} -id {project_id} Write operation output to file
+    create -path {path_to_file_with_JSON_payload} Create a new mason project
+    update -path {path_to_file_with_JSON_payload} Update a project
+    get -id {project_id} Get a project
+    get -all true Get all projects
+    delete -id {project_id} Delete a project
+    delete -out {output_file_path} -id {project_id} Write operation output to file
+    

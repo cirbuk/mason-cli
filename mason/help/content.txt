@@ -2,5 +2,5 @@ USAGE:
    mason project -action [OPTIONS]
 
 - Content related usage :
-    -action get -id {content_id} Get content by id
-    -action get -all true Get all content
+    get -id {content_id} Get content by id
+    get -all true Get all content

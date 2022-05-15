@@ -2,8 +2,6 @@
   <img src="assets/logo.png" width="150"/>
   <h1>Mason CLI</h1>
 </div>
-
-# mason-cli
 Mason CLI helps you build Mason apps & plugins. Use Mason CLI to supercharge your plugin development workflow.
 
 Mason CLI can be run and installed on Mac, Linux and Windows systems.

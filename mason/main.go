@@ -3,8 +3,20 @@ package main
 import (
 	"encoding/json"
 	"flag"
+	"fmt"
 	"os"
+	"runtime"
 )
+
+var Reset = "\033[0m"
+var Red = "\033[31m"
+var Green = "\033[32m"
+var Yellow = "\033[33m"
+var Blue = "\033[34m"
+var Purple = "\033[35m"
+var Cyan = "\033[36m"
+var Gray = "\033[37m"
+var White = "\033[97m"
 
 var ACTIVE_TOKEN = "MASON_ACTIVE_TOKEN"
 
@@ -14,6 +26,18 @@ type Masonconfig struct {
 }
 
 func main() {
+
+	if runtime.GOOS == "windows" {
+		Reset = ""
+		Red = ""
+		Green = ""
+		Yellow = ""
+		Blue = ""
+		Purple = ""
+		Cyan = ""
+		Gray = ""
+		White = ""
+	}
 
 	helpCmd := flag.NewFlagSet("help", flag.ExitOnError)
 
@@ -46,7 +70,8 @@ func main() {
 	outputContent := contentCmd.String("out", "", "Relative path to write output to")
 
 	if len(os.Args) < 2 {
-		println("expected a subcommand from ['help', init', 'login', 'logout', 'project', 'schema', 'content']")
+		handleHelp(helpCmd)
+		// println("expected a subcommand from ['help', init', 'login', 'logout', 'project', 'schema', 'content']")
 		os.Exit(1)
 	}
 
@@ -67,7 +92,7 @@ func main() {
 	case "content": // if its the 'content' command
 		handleContent(contentCmd, actionContent, allContent, idContent, outputContent)
 	default: // if we don't understand the input
-		println("Invalid action. Please enter action out of ['init,login,logout,project,schema,content']")
+		println("error. See mason help")
 	}
 
 }
@@ -82,16 +107,39 @@ func getConfigPath() string {
 	return CONFIG_PATH
 }
 
-func handleHelp(initCmd *flag.FlagSet) {
-	initCmd.Parse(os.Args[2:])
-	// redirect to Mason devhub here
+func IsValidCommand(cmd string) bool {
+	switch cmd {
+	case
+		"project",
+		"content",
+		"schema":
+		return true
+	}
+	return false
+}
+
+// TODO : redirect to Mason devhub here
+func handleDocs(initCmd *flag.FlagSet) {
+	// content := readFileJson("usage.txt")
+	// println(string(content))
+}
+
+func handleHelp(helpCmd *flag.FlagSet) {
 	content := readFileJson("usage.txt")
-	println(string(content))
+	if len(os.Args) <= 2 {
+		println(string(content))
+	} else {
+		cmd := os.Args[2]
+		if IsValidCommand(cmd) {
+			println(string(readFileJson(fmt.Sprintf("help/%s.txt", cmd))))
+		} else {
+			println(fmt.Sprintf("%s error: %s %s %s is not a valid mason command. Did you mean help?%s See \"mason help\"", Red, Reset, cmd, Red, Reset))
+		}
+	}
 }
 
 func handleInit(initCmd *flag.FlagSet) {
 	initCmd.Parse(os.Args[2:])
-	// redirect to Mason devhub here
 	println("Initiated auth flow")
 	println("Redirecting to Mason DevHub where you can get your token..")
 }

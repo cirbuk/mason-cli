@@ -1,0 +1,12 @@
+USAGE:
+   mason schema -action [OPTIONS]
+
+   Create and update schemas within a project
+
+OPTIONS:
+    -action create -path {path_to_schema} Create a new schema
+    -action update -path {path_to_schema} Update an existing schema
+    -action get -id {schema_id} Get a schema by id
+    -action get -all true Get all schemas
+    -action delete -id {schema_id} Delete a schema
+    

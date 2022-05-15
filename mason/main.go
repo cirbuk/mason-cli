@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"log"
 	"os"
+	"os/exec"
 	"runtime"
 )
 
@@ -79,6 +81,8 @@ func main() {
 	switch os.Args[1] {
 	case "help": // if its the 'help' command
 		handleHelp(helpCmd)
+	case "docs": // if its the 'docs' command
+		openDocs()
 	case "init": // if its the 'init' command
 		handleInit(initCmd)
 	case "login": // if its the 'login' command
@@ -107,7 +111,7 @@ func getConfigPath() string {
 	return CONFIG_PATH
 }
 
-func IsValidCommand(cmd string) bool {
+func ValidCommand(cmd string) bool {
 	switch cmd {
 	case
 		"project",
@@ -118,10 +122,24 @@ func IsValidCommand(cmd string) bool {
 	return false
 }
 
-// TODO : redirect to Mason devhub here
-func handleDocs(initCmd *flag.FlagSet) {
-	// content := readFileJson("usage.txt")
-	// println(string(content))
+// Redirect to Mason devhub here
+func openDocs() {
+	var url = "https://getmason.dev"
+	var err error
+
+	switch runtime.GOOS {
+	case "linux":
+		err = exec.Command("xdg-open", url).Start()
+	case "windows":
+		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+	case "darwin":
+		err = exec.Command("open", url).Start()
+	default:
+		err = fmt.Errorf("unsupported platform")
+	}
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func handleHelp(helpCmd *flag.FlagSet) {
@@ -130,7 +148,7 @@ func handleHelp(helpCmd *flag.FlagSet) {
 		println(string(content))
 	} else {
 		cmd := os.Args[2]
-		if IsValidCommand(cmd) {
+		if ValidCommand(cmd) {
 			println(string(readFileJson(fmt.Sprintf("help/%s.txt", cmd))))
 		} else {
 			println(fmt.Sprintf("%s error: %s %s %s is not a valid mason command. Did you mean help?%s See \"mason help\"", Red, Reset, cmd, Red, Reset))

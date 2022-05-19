@@ -1,0 +1,7 @@
+USAGE:
+- Login to mason-cli with your token and environment
+
+   mason login -env [prod|beta] -token [user JWT token for a workspace from init step]
+
+- Login usage:
+    mason login -env beta -token <api-token>

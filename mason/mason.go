@@ -59,10 +59,32 @@ func writeFileJson(path string, content []byte) bool {
 	return true
 }
 
-func getProjects(projectId string, all bool, output string) {
+func exportProject(projectId string, output string) {
+	var outputSchema = ""
+	var outputContent = ""
+	var projectPath = ""
+	if output != "" {
+		if err := os.MkdirAll(output, os.ModePerm); err != nil {
+			fmt.Printf("\nError making directory %s\n", output)
+		}
+		projectPath = output + "/" + projectId
+		if err := os.MkdirAll(projectPath, os.ModePerm); err != nil {
+			fmt.Printf("\nError making directory %s\n", projectPath)
+		}
+		outputSchema = projectPath + "/" + "schemas.json"
+		outputContent = projectPath + "/" + "content.json"
+	}
+	getSchema("", false, outputSchema, projectId)
+	getContent("", false, outputContent, projectId)
+	if output != "" {
+		fmt.Printf("Wrote Project Schema and Content details to %s\n", projectPath)
+	}
+}
+
+func getProjects(projectId string, output string) {
 	config := checkToken()
 	token := config.MasonToken
-	fmt.Printf("Called Get Projects with token %s projectId %s and all %t and outputPath %s\n", token, projectId, all, output)
+	fmt.Printf("Called Get Projects with token %s projectId %s and outputPath %s\n", token, projectId, output)
 	client := &http.Client{}
 	endpoint := getApiHost() + "/v1/project"
 	req, err := http.NewRequest("GET", endpoint, nil)
@@ -158,7 +180,7 @@ func deleteProject(projectId string, output string) {
 	}
 }
 
-func getContent(contentId string, all bool, output string) {
+func getContent(contentId string, all bool, output string, projectId string) {
 	config := checkToken()
 	token := config.MasonToken
 	fmt.Printf("Called Get Content with token %s contentId %s and all %t\n", token, contentId, all)
@@ -169,6 +191,9 @@ func getContent(contentId string, all bool, output string) {
 	q.Add("token", token)
 	if contentId != "" {
 		q.Add("content_id", contentId)
+	}
+	if projectId != "" {
+		q.Add("project_id", projectId)
 	}
 	req.URL.RawQuery = q.Encode()
 	resp, err := client.Do(req)
@@ -192,7 +217,7 @@ func getContent(contentId string, all bool, output string) {
 	}
 }
 
-func getSchema(schemaId string, all bool, output string) {
+func getSchema(schemaId string, all bool, output string, projectId string) {
 	config := checkToken()
 	token := config.MasonToken
 	fmt.Printf("Called Get Schema with token %s schemaId %s and all %t\n", token, schemaId, all)
@@ -203,6 +228,9 @@ func getSchema(schemaId string, all bool, output string) {
 	q.Add("token", token)
 	if schemaId != "" {
 		q.Add("schema_id", schemaId)
+	}
+	if projectId != "" {
+		q.Add("project_id", projectId)
 	}
 	req.URL.RawQuery = q.Encode()
 	resp, err := client.Do(req)

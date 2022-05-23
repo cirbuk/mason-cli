@@ -52,11 +52,11 @@ func main() {
 	logoutCmd := flag.NewFlagSet("logout", flag.ExitOnError)
 
 	projectCmd := flag.NewFlagSet("project", flag.ExitOnError)
-	actionProject := projectCmd.String("action", "", "Please  enter action from [create,update,delete,get]")
-	allProject := projectCmd.Bool("all", false, "Get all projects")
+	// 	actionProject := projectCmd.String("action", "", "Please  enter action from [create,update,delete,get]")
+	// 	allProject := projectCmd.Bool("all", false, "Get all projects")
 	idProject := projectCmd.String("id", "", "Mason Project ID")
 	pathProjectJson := projectCmd.String("path", "", "Relative file path of JSON for project create/update")
-	outputProject := projectCmd.String("out", "", "Relative path to write output to")
+	outputProject := projectCmd.String("out", "", "Relative folder/directory path to write project details")
 
 	// 	schemaCmd := flag.NewFlagSet("schema", flag.ExitOnError)
 	// 	actionSchema := schemaCmd.String("action", "", "Please  enter action from [create,update,delete,get]")
@@ -90,7 +90,7 @@ func main() {
 	case "logout": // if its the 'logout' command
 		handleLogout(logoutCmd)
 	case "project": // if its the 'project' command
-		handleProject(projectCmd, actionProject, allProject, idProject, pathProjectJson, outputProject)
+		handleProject(projectCmd, idProject, pathProjectJson, outputProject)
 		// 	case "schema": // if its the 'schema' command
 		// 		handleSchema(schemaCmd, actionSchema, allSchema, idSchema, pathSchemaJson, outputSchema)
 		// 	case "content": // if its the 'content' command
@@ -117,7 +117,8 @@ func ValidCommand(cmd string) bool {
 		"project",
 		"login",
 		"logout",
-		"init":
+		"init",
+		"docs":
 		return true
 	}
 	return false
@@ -212,97 +213,102 @@ func handleLogin(loginCmd *flag.FlagSet, loginToken *string, env *string) {
 
 }
 
-func handleProject(projectCmd *flag.FlagSet, action *string, all *bool, projectId *string, contentPath *string, outputPath *string) {
-	projectCmd.Parse(os.Args[2:])
-	if *action == "" {
-		println("Enter action as ['create', 'update', 'delete', 'get']")
+func handleProject(projectCmd *flag.FlagSet, projectId *string, contentPath *string, outputPath *string) {
+	projectCmd.Parse(os.Args[3:])
+	// 	fmt.Printf("Project command: project_id = %s, contentPath = %s, outputPath = %s\n", *projectId, *contentPath, *outputPath)
+	var action = os.Args[2]
+	if action == "" {
+		println("Enter action as ['import', 'export'] for project command")
 		projectCmd.PrintDefaults()
 		os.Exit(1)
 	}
-	if *action == "get" && *all == false && *projectId == "" {
-		println("all or id needs to be sent for get action")
+	if action != "import" && action != "export" {
+		println("Invalid action: Enter action from ['import', 'export'] for project command")
 		projectCmd.PrintDefaults()
 		os.Exit(1)
 	}
-	if *action == "delete" && *projectId == "" {
-		println("id needs to be sent for delete action")
+	if action == "export" && *projectId == "" {
+		println("id needs to be entered for 'export' action")
 		projectCmd.PrintDefaults()
 		os.Exit(1)
 	}
-	if (*action == "create" || *action == "update") && *contentPath == "" {
-		println("Path with JSON payload required for actions create,update")
+	// 	if *action == "delete" && *projectId == "" {
+	// 		println("id needs to be sent for delete action")
+	// 		projectCmd.PrintDefaults()
+	// 		os.Exit(1)
+	// 	}
+	if (action == "import") && *contentPath == "" {
+		println("Path to project folder is required for 'import' action")
 		projectCmd.PrintDefaults()
 		os.Exit(1)
 	}
-	println("Initiated Project Flow")
-	println(*action)
-	println(*outputPath)
-	if *action == "get" {
-		getProjects(*projectId, *all, *outputPath)
+	if action == "export" {
+		exportProject(*projectId, *outputPath)
 	}
-	if *action == "delete" {
-		deleteProject(*projectId, *outputPath)
-	}
-	if *action == "create" || *action == "update" {
-		createOrUpdateProject(*contentPath, *outputPath)
-	}
+	// 	if *action == "delete" {
+	// 		deleteProject(*projectId, *outputPath)
+	// 	}
+	// 	if *action == "create" || *action == "update" {
+	// 		createOrUpdateProject(*contentPath, *outputPath)
+	// 	}
 
 }
 
-func handleSchema(schemaCmd *flag.FlagSet, action *string, all *bool, schemaId *string, contentPath *string, outputPath *string) {
-	schemaCmd.Parse(os.Args[2:])
-	if *action == "" {
-		println("Enter action as ['create', 'update', 'delete', 'get']")
-		schemaCmd.PrintDefaults()
-		os.Exit(1)
-	}
-	if *action == "get" && *all == false && *schemaId == "" {
-		println("all or id needs to be sent for get action")
-		schemaCmd.PrintDefaults()
-		os.Exit(1)
-	}
-	if *action == "delete" && *schemaId == "" {
-		println("id needs to be sent for delete action")
-		schemaCmd.PrintDefaults()
-		os.Exit(1)
-	}
-	if (*action == "create" || *action == "update") && *contentPath == "" {
-		println("Path with JSON payload required for actions create,update")
-		schemaCmd.PrintDefaults()
-		os.Exit(1)
-	}
-	println("Initiated Schema Flow")
-	println(*action)
-	if *action == "get" {
-		getSchema(*schemaId, *all, *outputPath)
-	}
-	if *action == "delete" {
-		deleteSchema(*schemaId, *outputPath)
-	}
-	if *action == "create" {
-		createSchema(*contentPath, *outputPath)
-	}
-	if *action == "update" {
-		updateSchema(*contentPath, *outputPath)
-	}
-}
-
-func handleContent(contentCmd *flag.FlagSet, action *string, all *bool, contentId *string, outputPath *string) {
-	contentCmd.Parse(os.Args[2:])
-	if *action == "" {
-		println("Enter action as ['get']")
-		contentCmd.PrintDefaults()
-		os.Exit(1)
-	}
-	if *action == "get" && *all == false && *contentId == "" {
-		println("all or id needs to be sent for get action")
-		contentCmd.PrintDefaults()
-		os.Exit(1)
-	}
-	println("Initiated Content Flow")
-	println(*action)
-	if *action == "get" {
-		getContent(*contentId, *all, *outputPath)
-	}
-
-}
+//
+// func handleSchema(schemaCmd *flag.FlagSet, action *string, all *bool, schemaId *string, contentPath *string, outputPath *string) {
+// 	schemaCmd.Parse(os.Args[2:])
+// 	if *action == "" {
+// 		println("Enter action as ['create', 'update', 'delete', 'get']")
+// 		schemaCmd.PrintDefaults()
+// 		os.Exit(1)
+// 	}
+// 	if *action == "get" && *all == false && *schemaId == "" {
+// 		println("all or id needs to be sent for get action")
+// 		schemaCmd.PrintDefaults()
+// 		os.Exit(1)
+// 	}
+// 	if *action == "delete" && *schemaId == "" {
+// 		println("id needs to be sent for delete action")
+// 		schemaCmd.PrintDefaults()
+// 		os.Exit(1)
+// 	}
+// 	if (*action == "create" || *action == "update") && *contentPath == "" {
+// 		println("Path with JSON payload required for actions create,update")
+// 		schemaCmd.PrintDefaults()
+// 		os.Exit(1)
+// 	}
+// 	println("Initiated Schema Flow")
+// 	println(*action)
+// 	if *action == "get" {
+// 		getSchema(*schemaId, *all, *outputPath)
+// 	}
+// 	if *action == "delete" {
+// 		deleteSchema(*schemaId, *outputPath)
+// 	}
+// 	if *action == "create" {
+// 		createSchema(*contentPath, *outputPath)
+// 	}
+// 	if *action == "update" {
+// 		updateSchema(*contentPath, *outputPath)
+// 	}
+// }
+//
+// func handleContent(contentCmd *flag.FlagSet, action *string, all *bool, contentId *string, outputPath *string) {
+// 	contentCmd.Parse(os.Args[2:])
+// 	if *action == "" {
+// 		println("Enter action as ['get']")
+// 		contentCmd.PrintDefaults()
+// 		os.Exit(1)
+// 	}
+// 	if *action == "get" && *all == false && *contentId == "" {
+// 		println("all or id needs to be sent for get action")
+// 		contentCmd.PrintDefaults()
+// 		os.Exit(1)
+// 	}
+// 	println("Initiated Content Flow")
+// 	println(*action)
+// 	if *action == "get" {
+// 		getContent(*contentId, *all, *outputPath)
+// 	}
+//
+// }

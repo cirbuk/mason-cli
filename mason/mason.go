@@ -71,14 +71,17 @@ func exportProject(projectId string, output string) {
 		if err := os.MkdirAll(projectPath, os.ModePerm); err != nil {
 			fmt.Printf("\nError making directory %s\n", projectPath)
 		}
-		outputSchema = projectPath + "/" + "schemas.json"
-		outputContent = projectPath + "/" + "content.json"
+		outputSchema = projectPath + "/schemas/" + "schemas.json"
+		outputContent = projectPath + "/content/" + "content.json"
 	}
 	getSchema("", false, outputSchema, projectId)
 	getContent("", false, outputContent, projectId)
 	if output != "" {
 		fmt.Printf("Wrote Project Schema and Content details to %s\n", projectPath)
 	}
+}
+
+func importProject(projectPath string, schemaOnly bool, contentOnly bool) {
 }
 
 func getProjects(projectId string, output string) {

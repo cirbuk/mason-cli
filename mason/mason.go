@@ -68,11 +68,16 @@ func exportProject(projectId string, output string) {
 			fmt.Printf("\nError making directory %s\n", output)
 		}
 		projectPath = output + "/" + projectId
-		if err := os.MkdirAll(projectPath, os.ModePerm); err != nil {
-			fmt.Printf("\nError making directory %s\n", projectPath)
+		schemaPath := projectPath + "/schemas"
+		contentPath := projectPath + "/content"
+		if err := os.MkdirAll(schemaPath, os.ModePerm); err != nil {
+			fmt.Printf("\nError making directory %s\n", schemaPath)
 		}
-		outputSchema = projectPath + "/schemas/" + "schemas.json"
-		outputContent = projectPath + "/content/" + "content.json"
+		if err := os.MkdirAll(contentPath, os.ModePerm); err != nil {
+			fmt.Printf("\nError making directory %s\n", contentPath)
+		}
+		outputSchema = schemaPath + "/schemas.json"
+		outputContent = contentPath + "/content.json"
 	}
 	getSchema("", false, outputSchema, projectId)
 	getContent("", false, outputContent, projectId)
@@ -82,6 +87,49 @@ func exportProject(projectId string, output string) {
 }
 
 func importProject(projectPath string, schemaOnly bool, contentOnly bool) {
+	if !schemaOnly && !contentOnly {
+		schemaOnly = true
+		contentOnly = true
+	}
+	if schemaOnly {
+		importSchemas(projectPath)
+		fmt.Printf("\nSuccessfully imported Schemas at %s\n", projectPath)
+	}
+	if contentOnly {
+		importContent(projectPath)
+		fmt.Printf("\nSuccessfully imported Content at %s\n", projectPath)
+	}
+	fmt.Println("Successfully finished import Project")
+
+}
+
+func importSchemas(projectPath string) {
+	var schemasDir = projectPath + "/schemas"
+	files, err := ioutil.ReadDir(schemasDir)
+	if err != nil {
+		fmt.Printf("\nError reading directory %s\n", schemasDir)
+	}
+	for _, f := range files {
+		fmt.Println(f.Name())
+		schemaPath := schemasDir + "/" + f.Name()
+		createSchema(schemaPath, "")
+	}
+	fmt.Printf("\nCreated Schemas present in %s\n", schemasDir)
+}
+
+func importContent(projectPath string) {
+	var contentDir = projectPath + "/content"
+	files, err := ioutil.ReadDir(contentDir)
+	if err != nil {
+		fmt.Printf("\nError reading directory %s\n", contentDir)
+	}
+	for _, f := range files {
+		fmt.Println(f.Name())
+		contentPath := contentDir + "/" + f.Name()
+		createOrUpdateContent(contentPath, "")
+	}
+	fmt.Printf("\nCreated Content present in %s\n", contentDir)
+
 }
 
 func getProjects(projectId string, output string) {
@@ -202,6 +250,37 @@ func getContent(contentId string, all bool, output string, projectId string) {
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Error while making Get Content Call")
+		fmt.Printf("%s", err)
+	}
+	defer resp.Body.Close()
+	var prettyJSON bytes.Buffer
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err)
+	}
+	json.Indent(&prettyJSON, body, "", "\t")
+	if output == "" {
+		fmt.Println(resp.Status)
+		fmt.Println(prettyJSON.String())
+	} else {
+		fmt.Printf("\nWriting output to %s\n", output)
+		writeFileJson(output, prettyJSON.Bytes())
+	}
+}
+
+func createOrUpdateContent(contentPath string, output string) {
+	config := checkToken()
+	token := config.MasonToken
+	client := &http.Client{}
+	payload := readFileJson(contentPath)
+	endpoint := getApiHost() + "/v1/content"
+	req, err := http.NewRequest("PUT", endpoint, bytes.NewBuffer(payload))
+	q := req.URL.Query()
+	q.Add("token", token)
+	req.URL.RawQuery = q.Encode()
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("Error while making Create/Update Content Call")
 		fmt.Printf("%s", err)
 	}
 	defer resp.Body.Close()

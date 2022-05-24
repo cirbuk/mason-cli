@@ -54,8 +54,10 @@ func main() {
 	projectCmd := flag.NewFlagSet("project", flag.ExitOnError)
 	// 	actionProject := projectCmd.String("action", "", "Please  enter action from [create,update,delete,get]")
 	// 	allProject := projectCmd.Bool("all", false, "Get all projects")
+	schemaFlag := projectCmd.Bool("schema", false, "Create/Update only schemas from project folder")
+	contentFlag := projectCmd.Bool("content", false, "Create/Update only content from project folder")
 	idProject := projectCmd.String("id", "", "Mason Project ID")
-	pathProjectJson := projectCmd.String("path", "", "Relative file path of JSON for project create/update")
+	pathProjectJson := projectCmd.String("path", "", "Relative path of project folder containing Content and Schemas")
 	outputProject := projectCmd.String("out", "", "Relative folder/directory path to write project details")
 
 	// 	schemaCmd := flag.NewFlagSet("schema", flag.ExitOnError)
@@ -90,7 +92,7 @@ func main() {
 	case "logout": // if its the 'logout' command
 		handleLogout(logoutCmd)
 	case "project": // if its the 'project' command
-		handleProject(projectCmd, idProject, pathProjectJson, outputProject)
+		handleProject(projectCmd, idProject, pathProjectJson, outputProject, schemaFlag, contentFlag)
 		// 	case "schema": // if its the 'schema' command
 		// 		handleSchema(schemaCmd, actionSchema, allSchema, idSchema, pathSchemaJson, outputSchema)
 		// 	case "content": // if its the 'content' command
@@ -213,16 +215,15 @@ func handleLogin(loginCmd *flag.FlagSet, loginToken *string, env *string) {
 
 }
 
-func handleProject(projectCmd *flag.FlagSet, projectId *string, contentPath *string, outputPath *string) {
+func handleProject(projectCmd *flag.FlagSet, projectId *string, contentPath *string, outputPath *string, schemaOnly *bool, contentOnly *bool) {
 	projectCmd.Parse(os.Args[3:])
-	// 	fmt.Printf("Project command: project_id = %s, contentPath = %s, outputPath = %s\n", *projectId, *contentPath, *outputPath)
 	var action = os.Args[2]
 	if action == "" {
 		println("Enter action as ['import', 'export'] for project command")
 		projectCmd.PrintDefaults()
 		os.Exit(1)
 	}
-	if action != "import" && action != "export" {
+	if action != "import" && action != "export" && action != "get" {
 		println("Invalid action: Enter action from ['import', 'export'] for project command")
 		projectCmd.PrintDefaults()
 		os.Exit(1)
@@ -244,6 +245,12 @@ func handleProject(projectCmd *flag.FlagSet, projectId *string, contentPath *str
 	}
 	if action == "export" {
 		exportProject(*projectId, *outputPath)
+	}
+	if action == "get" {
+		getProjects(*projectId, *outputPath)
+	}
+	if action == "import" {
+		importProject(*contentPath, *schemaOnly, *contentOnly)
 	}
 	// 	if *action == "delete" {
 	// 		deleteProject(*projectId, *outputPath)

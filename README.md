@@ -84,12 +84,14 @@ mason [project] [export|import] {specific flags and their values  - id|out|path|
     ```
     The resultant folder strucutre is of the form :
 
+    ```
     output_folder_path
     +-- project_id
     ¦   +-- content
             +-- content.json
     ¦   +-- schemas
             +-- schemas.json
+    ```
 
     - Import schemas and content linked to a project into mason
     ```

@@ -225,7 +225,7 @@ func handleProject(projectCmd *flag.FlagSet, projectId *string, contentPath *str
 		os.Exit(1)
 	}
 	if action != "import" && action != "export" && action != "get" {
-		println("Invalid action: Enter action from ['import', 'export'] for project command")
+		println("Invalid action: Enter action from ['import', 'export', 'get'] for project command")
 		projectCmd.PrintDefaults()
 		os.Exit(1)
 	}

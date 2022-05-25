@@ -3,11 +3,44 @@ USAGE:
 
    Initialize a new mason project or app
 
-OPTIONS :
-    create -path {path_to_file_with_JSON_payload} Create a new mason project
-    update -path {path_to_file_with_JSON_payload} Update a project
-    get -id {project_id} Get a project
-    get -all true Get all projects
-    delete -id {project_id} Delete a project
-    delete -out {output_file_path} -id {project_id} Write operation output to file
+mason [project] [export|import] {specific flags and their values  - id|out|path|schema|content}
+
+- Project related usage :
+
+    - Get all projects
+
+    mason project get -id {project_id}
+
+
+    - Export schemas and content linked to a project
+
+    mason project export -id {project_id}
+
+
+
+    -  Write export operation output to folder
+
+    mason project export -id {project_id} -out {output_folder_path}
+
+    The resultant folder strucutre is of the form :
+
+    output_folder_path
+    +-- project_id
+    ¦   +-- content
+            +-- content.json
+    ¦   +-- schemas
+            +-- schemas.json
+
+    - Import schemas and content linked to a project into mason
+
+    mason project import -path {path_to_project_folder}
+
+    The project folder should contain `schemas` and `content` folders with individual JSON files inside them
+
+
+    - Import schemas and content selectively
+
+    mason project import -path {path_to_project_folder} --content true
+
+    mason project import -path {path_to_project_folder} --schema true
     

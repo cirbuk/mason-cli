@@ -164,6 +164,7 @@ func handleInit(initCmd *flag.FlagSet) {
 	initCmd.Parse(os.Args[2:])
 	println("Initiated auth flow")
 	println("Redirecting to Mason DevHub where you can get your token..")
+	openDocs()
 }
 
 func handleLogout(logoutCmd *flag.FlagSet) {

@@ -1,7 +1,7 @@
 mason's command line app
 
 USAGE:
-  mason [COMMAND] -action [create|update|get|delete] [OPTIONS]
+  mason [COMMAND] [import|export] [OPTIONS]
 
 COMMANDS:
   project  Interact with projects connected to your logged in user

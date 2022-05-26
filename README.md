@@ -62,187 +62,167 @@ mason logout
 - Entity related usage :
 You can use commands using the below pattern
 ```
-mason [project|schema|content] -action [create|update|get|delete] {specific flags and their values  - all|id|out|path}
+mason [project] [export|import] {specific flags and their values  - id|out|path|schema|content}
 ```
 
 - Project related usage :
-    - Create a project
-    ```
-    mason project -action create -path {path_to_file_with_JSON_payload}
-    ```
-
-    - Update a project
-    ```
-    mason project -action update -path {path_to_file_with_JSON_payload}
-    ```
-
-    - Get a project
-    ```
-    mason project -action get -id {project_id}
-    ```
 
     - Get all projects
     ```
-    mason project -action get -all true
+    mason project get -id {project_id}
     ```
 
-    - Delete a project
+    - Export schemas and content linked to a project
     ```
-    mason project -action delete -id {project_id}
-    ```
-    -  Write operation output to file
-    ```
-    mason project -action delete -out {output_file_path} -id {project_id}
+    mason project export -id {project_id}
     ```
 
-- Schema related usage :
-    - Create a schema
+
+    -  Write export operation output to folder
     ```
-    mason schema -action create -path {path_to_file_with_JSON_payload}
+    mason project export -id {project_id} -out {output_folder_path}
+    ```
+    The resultant folder strucutre is of the form :
+
+    ```
+    output_folder_path
+    +-- project_id
+    ¦   +-- content
+            +-- content.json
+    ¦   +-- schemas
+            +-- schemas.json
     ```
 
-    - Update a schema
+    - Import schemas and content linked to a project into mason
     ```
-    mason schema -action update -path {path_to_file_with_JSON_payload}
+    mason project import -path {path_to_project_folder}
+    ```
+    The project folder should contain `schemas` and `content` folders with individual JSON files inside them
+
+
+    - Import schemas and content selectively
+    ```
+    mason project import -path {path_to_project_folder} --content true
     ```
 
-    - Get a schema
     ```
-    mason schema -action get -id {schema_id}
-    ```
-
-    - Get all schemas
-    ```
-    mason schema -action get -all true
+    mason project import -path {path_to_project_folder} --schema true
     ```
 
-    - Delete a schema
-    ```
-    mason schema -action delete -id {schema_id}
-    ```
-    -  Write operation output to file
-    ```
-    mason project -action delete -out {output_file_path} -id {project_id}
-    ```
 
-- Content related usage :
-    - Get content by id
-    ```
-    mason content -action get -id {content_id}
-    ```
-
-    - Get all content
-    ```
-    mason content -action get -all true
-    ```
-    -  Write operation output to file
-    ```
-    mason project -action delete -out {output_file_path} -id {project_id}
-    ```
 
 ## Sample Usage
 
 - To create schema for carousel post in Online Shop
 
-Command : `mason schema -action create -path payload.json`
+Command : `mason project import -path testdir`
 
-Contents of payload.json file :
-
-```
-   {
-  "content_type": {
-    "title": "StoreTopCarousel",
-    "name": "StoreTopCarousel",
-    "type": "document",
-    "scope": "workspace",
-    "fields": [
-      {
-        "title": "Product Text",
-        "name": "product_text",
-        "field_type": "string",
-        "of": null,
-        "options": {}
-      },
-      {
-        "title": "Product Image",
-        "name": "image",
-        "field_type": "string",
-        "of": null,
-        "options": {}
-      },
-      {
-        "title": "Description",
-        "name": "desc",
-        "field_type": "string",
-        "of": null,
-        "options": {}
-      },
-      {
-        "title": "Background Color",
-        "name": "bg_color",
-        "field_type": "string",
-        "of": null,
-        "options": {}
-      }
-    ]
-  }
-}
-```
-
-- To update the above created content, adding Contrast color field
-
-Command : `mason schema -action update -path payload.json`
-
-Contents of payload.json file :
+Contents of testdir/content/content1.json file :
 
 ```
 {
-  "content_type": {
-    "id": "fe85ac4c-66d1-456e-996a-3cb55cf76cf5",
-    "title": "StoreTopCarousel",
-    "name": "StoreTopCarousel",
-    "type": "document",
-    "workspace_id": "fe85ac4c-66d1-456e-996a-3cb55cf76cf5",
-    "created_by": "saurab.mitra@kubric.io",
-    "scope": "workspace",
-    "fields": [
-      {
-        "title": "Product Text",
-        "name": "product_text",
-        "field_type": "string",
-        "of": null,
-        "options": {}
-      },
-      {
-        "title": "Product Image",
-        "name": "image",
-        "field_type": "string",
-        "of": null,
-        "options": {}
-      },
-      {
-        "title": "Description",
-        "name": "desc",
-        "field_type": "string",
-        "of": null,
-        "options": {}
-      },
-      {
-        "title": "Background Color",
-        "name": "bg_color",
-        "field_type": "string",
-        "of": null,
-        "options": {}
-      },
-      {
-        "title": "Contrast Color",
-        "name": "cs_color",
-        "field_type": "string",
-        "of": null,
-        "options": {}
-      }
+    "content": [
+        {
+            "content_type": {
+                "name": "default_project_creative",
+                "id": "9a5cce5b-2102-4ad4-827e-fc2eab278042"
+            },
+            "name": "slp_groc_1",
+            "campaign_id": "ad0b1e36-bc3d-4c6b-942b-81de8666019f",
+            "creative_id": "20eaa3e2-aadd-4b6b-be24-21c71a47c777",
+            "data": {
+                "uid": "20eaa3e2-aadd-4b6b-be24-21c71a47c777",
+                "name": "slp_groc_1",
+                "status": "created",
+                "created_on": "2022-01-28T07:01:59.769737",
+                "created_by": "maaz@kubric.io",
+                "updated": "2022-01-28T07:01:59.770141",
+                "updated_by": "maaz@kubric.io",
+                "sb_preview": "https://media.kubric.io/api/videos-kubric/image_png1141161121.png",
+                "mediaFormat": "image/png"
+            }
+        }
     ]
-  }
+}
+```
+
+
+Contents of testdir/schemas/schema1.json file :
+
+```
+{
+    "content_type": {
+    	"id": "07284c89-012c-40ab-b607-22aa51e9a42b",
+        "title": "Testsaurab",
+        "name": "testsaurab",
+        "type": "document",
+        "scope": "workspace",
+        "fields": [
+            {
+                "title": "ID",
+                "name": "uid",
+                "field_type": "string",
+                "of": null,
+                "options": {}
+            },
+            {
+                "title": "Title",
+                "name": "name",
+                "field_type": "string",
+                "of": null,
+                "options": {}
+            },
+            {
+                "title": "Status",
+                "name": "status",
+                "field_type": "string",
+                "of": null,
+                "options": {}
+            },
+            {
+                "title": "Created On",
+                "name": "created_on",
+                "field_type": "string",
+                "of": null,
+                "options": {}
+            },
+            {
+                "title": "Created By",
+                "name": "created_by",
+                "field_type": "string",
+                "of": null,
+                "options": {}
+            },
+            {
+                "title": "Updated At",
+                "name": "updated",
+                "field_type": "string",
+                "of": null,
+                "options": {}
+            },
+            {
+                "title": "Updated By",
+                "name": "updated_by",
+                "field_type": "string",
+                "of": null,
+                "options": {}
+            },
+            {
+                "title": "Preview",
+                "name": "sb_preview",
+                "field_type": "string",
+                "of": null,
+                "options": {}
+            },
+            {
+                "title": "Media Format",
+                "name": "mediaFormat",
+                "field_type": "string",
+                "of": null,
+                "options": {}
+            }
+        ]
+    }
 }
 ```
 

@@ -1,13 +1,14 @@
 mason's command line app
 
 USAGE:
-  mason [COMMAND] -action [create|update|get|delete] [OPTIONS]
+  mason [COMMAND] [import|export] [OPTIONS]
 
 COMMANDS:
   project  Interact with projects connected to your logged in user
-  schema   Interact with schemas created in your currently active project
-  content  Interact with content API's 
   docs     Open Mason dev center for building apps
   help     Displays help info about mason
+  init     Get your Mason Developer Token
+  login    Login Mason cli with a token and particular environment
+  logout   Logout current user from Mason cli
 
 See 'mason help [COMMAND]' for specific information on a subcommand.

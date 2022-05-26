@@ -1,0 +1,4 @@
+USAGE:
+- Signup for Mason and get your access token
+   mason init
+    

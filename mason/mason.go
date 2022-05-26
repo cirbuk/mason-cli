@@ -132,6 +132,18 @@ func importContent(projectPath string) {
 
 }
 
+func writeConsoleOrFile(body []byte, output string) {
+	var prettyJSON bytes.Buffer
+	json.Indent(&prettyJSON, body, "", "\t")
+	if output == "" {
+		fmt.Println(prettyJSON.String())
+	} else {
+		fmt.Printf("\nWriting output to %s\n", output)
+		writeFileJson(output, prettyJSON.Bytes())
+	}
+
+}
+
 func getProjects(projectId string, output string) {
 	config := checkToken()
 	token := config.MasonToken
@@ -151,19 +163,12 @@ func getProjects(projectId string, output string) {
 		fmt.Printf("%s", err)
 	}
 	defer resp.Body.Close()
-	var prettyJSON bytes.Buffer
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		panic(err)
 	}
-	json.Indent(&prettyJSON, body, "", "\t")
-	if output == "" {
-		fmt.Println(resp.Status)
-		fmt.Println(prettyJSON.String())
-	} else {
-		fmt.Printf("\nWriting output to %s\n", output)
-		writeFileJson(output, prettyJSON.Bytes())
-	}
+	writeConsoleOrFile(body, output)
+
 }
 
 func createOrUpdateProject(contentPath string, output string) {
@@ -182,19 +187,11 @@ func createOrUpdateProject(contentPath string, output string) {
 		fmt.Printf("%s", err)
 	}
 	defer resp.Body.Close()
-	var prettyJSON bytes.Buffer
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		panic(err)
 	}
-	json.Indent(&prettyJSON, body, "", "\t")
-	if output == "" {
-		fmt.Println(resp.Status)
-		fmt.Println(prettyJSON.String())
-	} else {
-		fmt.Printf("\nWriting output to %s\n", output)
-		writeFileJson(output, prettyJSON.Bytes())
-	}
+	writeConsoleOrFile(body, output)
 }
 
 func deleteProject(projectId string, output string) {
@@ -216,19 +213,11 @@ func deleteProject(projectId string, output string) {
 		fmt.Printf("%s", err)
 	}
 	defer resp.Body.Close()
-	var prettyJSON bytes.Buffer
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		panic(err)
 	}
-	json.Indent(&prettyJSON, body, "", "\t")
-	if output == "" {
-		fmt.Println(resp.Status)
-		fmt.Println(prettyJSON.String())
-	} else {
-		fmt.Printf("\nWriting output to %s\n", output)
-		writeFileJson(output, prettyJSON.Bytes())
-	}
+	writeConsoleOrFile(body, output)
 }
 
 func getContent(contentId string, all bool, output string, projectId string) {
@@ -253,19 +242,11 @@ func getContent(contentId string, all bool, output string, projectId string) {
 		fmt.Printf("%s", err)
 	}
 	defer resp.Body.Close()
-	var prettyJSON bytes.Buffer
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		panic(err)
 	}
-	json.Indent(&prettyJSON, body, "", "\t")
-	if output == "" {
-		fmt.Println(resp.Status)
-		fmt.Println(prettyJSON.String())
-	} else {
-		fmt.Printf("\nWriting output to %s\n", output)
-		writeFileJson(output, prettyJSON.Bytes())
-	}
+	writeConsoleOrFile(body, output)
 }
 
 func createOrUpdateContent(contentPath string, output string) {
@@ -284,19 +265,11 @@ func createOrUpdateContent(contentPath string, output string) {
 		fmt.Printf("%s", err)
 	}
 	defer resp.Body.Close()
-	var prettyJSON bytes.Buffer
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		panic(err)
 	}
-	json.Indent(&prettyJSON, body, "", "\t")
-	if output == "" {
-		fmt.Println(resp.Status)
-		fmt.Println(prettyJSON.String())
-	} else {
-		fmt.Printf("\nWriting output to %s\n", output)
-		writeFileJson(output, prettyJSON.Bytes())
-	}
+	writeConsoleOrFile(body, output)
 }
 
 func getSchema(schemaId string, all bool, output string, projectId string) {
@@ -321,19 +294,11 @@ func getSchema(schemaId string, all bool, output string, projectId string) {
 		fmt.Printf("%s", err)
 	}
 	defer resp.Body.Close()
-	var prettyJSON bytes.Buffer
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		panic(err)
 	}
-	json.Indent(&prettyJSON, body, "", "\t")
-	if output == "" {
-		fmt.Println(resp.Status)
-		fmt.Println(prettyJSON.String())
-	} else {
-		fmt.Printf("\nWriting output to %s\n", output)
-		writeFileJson(output, prettyJSON.Bytes())
-	}
+	writeConsoleOrFile(body, output)
 }
 
 func createSchema(contentPath string, output string) {
@@ -352,19 +317,11 @@ func createSchema(contentPath string, output string) {
 		fmt.Printf("%s", err)
 	}
 	defer resp.Body.Close()
-	var prettyJSON bytes.Buffer
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		panic(err)
 	}
-	json.Indent(&prettyJSON, body, "", "\t")
-	if output == "" {
-		fmt.Println(resp.Status)
-		fmt.Println(prettyJSON.String())
-	} else {
-		fmt.Printf("\nWriting output to %s\n", output)
-		writeFileJson(output, prettyJSON.Bytes())
-	}
+	writeConsoleOrFile(body, output)
 }
 
 func updateSchema(contentPath string, output string) {
@@ -383,19 +340,11 @@ func updateSchema(contentPath string, output string) {
 		fmt.Printf("%s", err)
 	}
 	defer resp.Body.Close()
-	var prettyJSON bytes.Buffer
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		panic(err)
 	}
-	json.Indent(&prettyJSON, body, "", "\t")
-	if output == "" {
-		fmt.Println(resp.Status)
-		fmt.Println(prettyJSON.String())
-	} else {
-		fmt.Printf("\nWriting output to %s\n", output)
-		writeFileJson(output, prettyJSON.Bytes())
-	}
+	writeConsoleOrFile(body, output)
 }
 
 func deleteSchema(schemaId string, output string) {
@@ -417,17 +366,9 @@ func deleteSchema(schemaId string, output string) {
 		fmt.Printf("%s", err)
 	}
 	defer resp.Body.Close()
-	var prettyJSON bytes.Buffer
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		panic(err)
 	}
-	json.Indent(&prettyJSON, body, "", "\t")
-	if output == "" {
-		fmt.Println(resp.Status)
-		fmt.Println(prettyJSON.String())
-	} else {
-		fmt.Printf("\nWriting output to %s\n", output)
-		writeFileJson(output, prettyJSON.Bytes())
-	}
+	writeConsoleOrFile(body, output)
 }

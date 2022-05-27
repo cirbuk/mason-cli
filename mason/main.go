@@ -147,13 +147,13 @@ func openDocs() {
 }
 
 func handleHelp(helpCmd *flag.FlagSet) {
-	content := readFileJson("usage.txt")
+	content := getHelpMessage("usage")
 	if len(os.Args) <= 2 {
-		println(string(content))
+		println(content)
 	} else {
 		cmd := os.Args[2]
 		if ValidCommand(cmd) {
-			println(string(readFileJson(fmt.Sprintf("help/%s.txt", cmd))))
+			println(getHelpMessage(cmd))
 		} else {
 			println(fmt.Sprintf("%s error: %s %s %s is not a valid mason command. Did you mean help?%s See \"mason help\"", Red, Reset, cmd, Red, Reset))
 		}

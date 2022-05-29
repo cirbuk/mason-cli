@@ -5,11 +5,11 @@
 class Mason < Formula
   desc "Binary distribution using homebrew."
   homepage "https://github.com/cirbuk/mason-cli"
-  version "0.1.14"
+  version "0.1.15"
 
   on_macos do
-    url "https://github.com/cirbuk/mason-cli/releases/download/v0.1.14/mason-cli_0.1.14_darwin_x86_64.tar.gz"
-    sha256 "ad12de6c000debac545b83c0eed42853b2501b7a377cc4fb224b08b09efe4757"
+    url "https://github.com/cirbuk/mason-cli/releases/download/v0.1.15/mason-cli_0.1.15_darwin_x86_64.tar.gz"
+    sha256 "a42a77a877f1c1f6bc86af38d6767268cf5d62be60a0b63dcfa58412a087c2bd"
 
     def install
       bin.install "mason"
@@ -28,8 +28,8 @@ class Mason < Formula
 
   on_linux do
     if Hardware::CPU.intel?
-      url "https://github.com/cirbuk/mason-cli/releases/download/v0.1.14/mason-cli_0.1.14_linux_x86_64.tar.gz"
-      sha256 "d43650352e5dd5266b607cb8c775e9b4b3081314c705550c045b52527f4ae1bc"
+      url "https://github.com/cirbuk/mason-cli/releases/download/v0.1.15/mason-cli_0.1.15_linux_x86_64.tar.gz"
+      sha256 "3e1170bc5244555ec4591446da23e97ec7dd813cfd32eaaee6d217808168dd0f"
 
       def install
         bin.install "mason"

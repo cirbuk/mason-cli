@@ -46,6 +46,7 @@ func main() {
 	initCmd := flag.NewFlagSet("init", flag.ExitOnError)
 
 	loginCmd := flag.NewFlagSet("login", flag.ExitOnError)
+	upgradeCmd := flag.NewFlagSet("upgrade", flag.ExitOnError)
 	loginToken := loginCmd.String("token", "", "Mason DevHub Token")
 	env := loginCmd.String("env", "", "Please enter env as 'beta' or 'prod'")
 
@@ -91,6 +92,8 @@ func main() {
 		handleLogin(loginCmd, loginToken, env)
 	case "logout": // if its the 'logout' command
 		handleLogout(logoutCmd)
+	case "upgrade":
+		handleUpgrade(upgradeCmd)
 	case "project": // if its the 'project' command
 		handleProject(projectCmd, idProject, pathProjectJson, outputProject, schemaFlag, contentFlag)
 		// 	case "schema": // if its the 'schema' command
@@ -120,6 +123,7 @@ func ValidCommand(cmd string) bool {
 		"login",
 		"logout",
 		"init",
+		"upgrade",
 		"docs":
 		return true
 	}
@@ -260,6 +264,29 @@ func handleProject(projectCmd *flag.FlagSet, projectId *string, contentPath *str
 	// 		createOrUpdateProject(*contentPath, *outputPath)
 	// 	}
 
+}
+
+func handleUpgrade(upgradeCmd *flag.FlagSet) {
+	runOs := runtime.GOOS
+	switch runOs {
+	case "windows":
+		println("Upgrading on", runOs)
+	case "darwin":
+		println("Upgrading mason .....")
+		cmd := exec.Command("brew", "upgrade", "mason")
+		stdout, err := cmd.CombinedOutput()
+
+		if err != nil {
+			println("============== failed to upgrade mason ===============")
+			println(err.Error())
+			return
+		}
+		println(string(stdout))
+	case "linux":
+		println("Upgrading on", runOs)
+	default:
+		println("Unable to detect OS, please contact dev support for help")
+	}
 }
 
 //

@@ -1,5 +1,10 @@
 package main
 
+import (
+	"embed"
+	_ "embed"
+)
+
 const usageText = "Mason's command line app\n\nUSAGE:\n  mason [COMMAND] [import|export] [OPTIONS]\n\nCOMMANDS:\n  project  Interact with projects connected to your logged in user\n  docs     Open Mason dev center for building apps\n  help     Displays help info about mason\n  init     Get your Mason Developer Token\n  login    Login Mason cli with a token and particular environment\n  logout   Logout current user from Mason cli\n  upgrade  Upgrade cli to latest version\n\nSee 'mason help [COMMAND]' for specific information on a subcommand."
 
 const docsHelp = "USAGE:\n- Open Mason dev center for building apps\n   mason docs"
@@ -14,10 +19,19 @@ const projectHelp = "USAGE: \n   mason project -action [OPTIONS]\n\n   Initializ
 
 const upgradeHelp = "USAGE:\n-   Upgrades Mason CLI to the latest version\n   mason upgrade\n"
 
+//go:embed help
+var f embed.FS
+
+var (
+--        Usage string = strings.TrimSpace(usage)
+		//go:embed usage.txt
+		usage string
+)
+
 func getHelpMessage(cmd string) string {
 	switch cmd {
 	case "usage": // if its the 'help' command
-		return string(usageText)
+		return string(Usage)
 	case "docs": // if its the 'docs' command
 		return string(docsHelp)
 	case "init": // if its the 'init' command

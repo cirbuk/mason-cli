@@ -10,6 +10,8 @@ import (
 	"runtime"
 )
 
+var version = "0.0.1"
+
 var Reset = "\033[0m"
 var Red = "\033[31m"
 var Green = "\033[32m"
@@ -46,6 +48,7 @@ func main() {
 	initCmd := flag.NewFlagSet("init", flag.ExitOnError)
 
 	loginCmd := flag.NewFlagSet("login", flag.ExitOnError)
+	upgradeCmd := flag.NewFlagSet("upgrade", flag.ExitOnError)
 	loginToken := loginCmd.String("token", "", "Mason DevHub Token")
 	env := loginCmd.String("env", "", "Please enter env as 'beta' or 'prod'")
 
@@ -91,6 +94,10 @@ func main() {
 		handleLogin(loginCmd, loginToken, env)
 	case "logout": // if its the 'logout' command
 		handleLogout(logoutCmd)
+	case "upgrade":
+		handleUpgrade(upgradeCmd)
+	case "version":
+		showVersion()
 	case "project": // if its the 'project' command
 		handleProject(projectCmd, idProject, pathProjectJson, outputProject, schemaFlag, contentFlag)
 		// 	case "schema": // if its the 'schema' command
@@ -120,6 +127,8 @@ func ValidCommand(cmd string) bool {
 		"login",
 		"logout",
 		"init",
+		"upgrade",
+		"version",
 		"docs":
 		return true
 	}
@@ -260,6 +269,44 @@ func handleProject(projectCmd *flag.FlagSet, projectId *string, contentPath *str
 	// 		createOrUpdateProject(*contentPath, *outputPath)
 	// 	}
 
+}
+
+func handleUpgrade(upgradeCmd *flag.FlagSet) {
+	runOs := runtime.GOOS
+	println("Upgrading mason .....")
+	switch runOs {
+	case "windows":
+		println("Please download and install exe package from repo")
+	case "darwin":
+		// brew upgrade mason
+		cmd := exec.Command("brew", "upgrade", "mason")
+		stdout, err := cmd.CombinedOutput()
+
+		if err != nil {
+			println("============== failed to upgrade mason ===============")
+			println(err.Error())
+			return
+		}
+		println(string(stdout))
+	case "linux":
+		// apt-get install --only-upgrade
+		cliUpgradeCmd := exec.Command("apt-get", "install --only-upgrade")
+		stdout, err := cliUpgradeCmd.CombinedOutput()
+
+		if err != nil {
+			println("============== failed to upgrade mason ===============")
+			println(err.Error())
+			return
+		}
+		println(string(stdout))
+
+	default:
+		println("Unable to detect OS, please contact dev support for help")
+	}
+}
+
+func showVersion() {
+	println("Mason CLI", version)
 }
 
 //

@@ -1,4 +1,8 @@
 Login to mason-cli with your token and environment
 
 USAGE:
-   mason login -env [prod|beta] -token [user JWT token for a workspace from init step]
+   mason login
+
+OPTIONS:
+   -env <ENV>        Environment: prod, beta
+   -token <TOKEN>    User JWT token obtained from the init step

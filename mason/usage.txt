@@ -11,5 +11,6 @@ COMMANDS:
   login    Login Mason cli with a token and particular environment
   logout   Logout current user from Mason cli
   upgrade  Upgrade cli app to latest version
+  version  Show the installed versions of mason CLI
 
 See 'mason help [COMMAND]' for specific information on a subcommand.

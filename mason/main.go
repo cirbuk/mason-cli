@@ -10,6 +10,8 @@ import (
 	"runtime"
 )
 
+var version = "0.0.1"
+
 var Reset = "\033[0m"
 var Red = "\033[31m"
 var Green = "\033[32m"
@@ -94,6 +96,8 @@ func main() {
 		handleLogout(logoutCmd)
 	case "upgrade":
 		handleUpgrade(upgradeCmd)
+	case "version":
+		showVersion()
 	case "project": // if its the 'project' command
 		handleProject(projectCmd, idProject, pathProjectJson, outputProject, schemaFlag, contentFlag)
 		// 	case "schema": // if its the 'schema' command
@@ -124,6 +128,7 @@ func ValidCommand(cmd string) bool {
 		"logout",
 		"init",
 		"upgrade",
+		"version",
 		"docs":
 		return true
 	}
@@ -268,11 +273,12 @@ func handleProject(projectCmd *flag.FlagSet, projectId *string, contentPath *str
 
 func handleUpgrade(upgradeCmd *flag.FlagSet) {
 	runOs := runtime.GOOS
+	println("Upgrading mason .....")
 	switch runOs {
 	case "windows":
-		println("Upgrading on", runOs)
+		println("Please download and install exe package from repo")
 	case "darwin":
-		println("Upgrading mason .....")
+		// brew upgrade mason
 		cmd := exec.Command("brew", "upgrade", "mason")
 		stdout, err := cmd.CombinedOutput()
 
@@ -283,10 +289,24 @@ func handleUpgrade(upgradeCmd *flag.FlagSet) {
 		}
 		println(string(stdout))
 	case "linux":
-		println("Upgrading on", runOs)
+		// apt-get install --only-upgrade
+		cliUpgradeCmd := exec.Command("apt-get", "install --only-upgrade")
+		stdout, err := cliUpgradeCmd.CombinedOutput()
+
+		if err != nil {
+			println("============== failed to upgrade mason ===============")
+			println(err.Error())
+			return
+		}
+		println(string(stdout))
+
 	default:
 		println("Unable to detect OS, please contact dev support for help")
 	}
+}
+
+func showVersion() {
+	println("Mason CLI", version)
 }
 
 //

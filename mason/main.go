@@ -279,8 +279,18 @@ func handleUpgrade(upgradeCmd *flag.FlagSet) {
 		println("Please download and install exe package from repo")
 	case "darwin":
 		// brew upgrade mason
-		cmd := exec.Command("brew", "upgrade", "mason")
-		stdout, err := cmd.CombinedOutput()
+		updateCmd := exec.Command("brew", "update")
+		stdout, err := updateCmd.CombinedOutput()
+
+		if err != nil {
+			println("============== failed to update brew ===============")
+			println(err.Error())
+			return
+		}
+		println(string(stdout))
+
+		upgradeCmd := exec.Command("brew", "upgrade", "mason")
+		stdout, err = upgradeCmd.CombinedOutput()
 
 		if err != nil {
 			println("============== failed to upgrade mason ===============")

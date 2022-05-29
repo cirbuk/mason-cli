@@ -1,3 +1,4 @@
+Open Mason dev center for building apps
+
 USAGE:
-- Open Mason dev center for building apps
    mason docs

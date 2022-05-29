@@ -1,4 +1,4 @@
+Shows currently installed version of mason CLI
+
 USAGE:
-- Shows currently installed version of mason CLI
    mason version
-    

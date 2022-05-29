@@ -1,7 +1,7 @@
+Initialize a new mason project or app
+
 USAGE: 
    mason project -action [OPTIONS]
-
-   Initialize a new mason project or app
 
 mason [project] [export|import] {specific flags and their values  - id|out|path|schema|content}
 
@@ -43,4 +43,3 @@ mason [project] [export|import] {specific flags and their values  - id|out|path|
     mason project import -path {path_to_project_folder} --content true
 
     mason project import -path {path_to_project_folder} --schema true
-    

@@ -1,4 +1,4 @@
+Upgrades Mason CLI to the latest version
+
 USAGE:
-- Upgrades Mason CLI to the latest version
    mason upgrade
-    

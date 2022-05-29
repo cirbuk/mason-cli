@@ -1,4 +1,4 @@
+Logout active user from Mason cli
+
 USAGE:
-- Logout active user from Mason cli
    mason logout
-    

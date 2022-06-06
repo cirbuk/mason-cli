@@ -11,6 +11,7 @@ import (
 )
 
 var version = "0.0.1"
+var devhub = "https://getmason.dev"
 
 var Reset = "\033[0m"
 var Red = "\033[31m"
@@ -87,7 +88,7 @@ func main() {
 	case "help": // if its the 'help' command
 		handleHelp(helpCmd)
 	case "docs": // if its the 'docs' command
-		openDocs()
+		openDocs(devhub)
 	case "init": // if its the 'init' command
 		handleInit(initCmd)
 	case "login": // if its the 'login' command
@@ -136,8 +137,7 @@ func ValidCommand(cmd string) bool {
 }
 
 // Redirect to Mason devhub here
-func openDocs() {
-	var url = "https://getmason.dev"
+func openDocs(url string) {
 	var err error
 
 	switch runtime.GOOS {
@@ -173,7 +173,7 @@ func handleInit(initCmd *flag.FlagSet) {
 	initCmd.Parse(os.Args[2:])
 	println("Initiated auth flow")
 	println("Redirecting to Mason DevHub where you can get your token..")
-	openDocs()
+	openDocs(devhub)
 }
 
 func handleLogout(logoutCmd *flag.FlagSet) {
@@ -198,30 +198,18 @@ func handleLogout(logoutCmd *flag.FlagSet) {
 
 func handleLogin(loginCmd *flag.FlagSet, loginToken *string, env *string) {
 	loginCmd.Parse(os.Args[2:])
-	CONFIG_PATH := getConfigPath()
-	if *loginToken == "" {
-		println("Please enter a valid token from Mason DevHub")
-		loginCmd.PrintDefaults()
-		os.Exit(1)
-	}
 	if *env == "" || (*env != "beta" && *env != "prod") {
 		println("Please enter a valid env from ['beta','prod']")
 		loginCmd.PrintDefaults()
 		os.Exit(1)
 	}
+	if *loginToken == "" {
+		println("Please enter a valid token from Mason DevHub")
+		// Call login endpoint with callback url
+		handleAuthCallback(*env)
+	}
 	println("Initiated Login Flow")
-	config := Masonconfig{MasonToken: *loginToken, MasonEnv: *env}
-	bytes, err := json.Marshal(config)
-	if err != nil {
-		println("Failed to set mason login credentials")
-		os.Exit(1)
-	}
-	success := writeFileJson(CONFIG_PATH, bytes)
-	if !success {
-		println("Failed to set mason login credentials")
-		os.Exit(1)
-	}
-	println("\nSuccessfully set Mason Login Creds")
+	writeConfig(*env, *loginToken)
 
 }
 

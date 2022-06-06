@@ -6,11 +6,15 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"os"
 )
 
 var API_HOST_BETA = "https://genie-beta.kubric.io"
 var API_HOST_PROD = "https://genie.kubric.io"
+var TEMP_SERVER_PORT = ":1731"
+var TOKEN_HOST_BETA = "https://beta.getmason.io/login?callback=http://localhost" + TEMP_SERVER_PORT + "/login"
+var TOKEN_HOST_PROD = "https://getmason.io/login?callback=http://localhost" + TEMP_SERVER_PORT + "/login"
 
 func getApiHost() string {
 	var API_HOST string
@@ -24,6 +28,42 @@ func getApiHost() string {
 	return API_HOST
 }
 
+func getTokenHost(env string) string {
+	var TOKEN_HOST string
+	if env == "beta" {
+		TOKEN_HOST = TOKEN_HOST_BETA
+	} else if env == "prod" {
+		TOKEN_HOST = TOKEN_HOST_PROD
+	}
+	return TOKEN_HOST
+}
+
+func loginCallback(env string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("Login Callback params were:", r.URL.Query())
+		if r.URL.Query().Has("token") {
+			token := r.URL.Query().Get("token")
+			decodedToken, err := url.QueryUnescape(token)
+			if err != nil {
+				fmt.Println("Error saving token seamlessly, please copy and paste with -token option")
+				os.Exit(1)
+			}
+			writeConfig(env, decodedToken)
+		} else {
+			fmt.Println("No token in callback request, login failed...")
+		}
+		os.Exit(1)
+	}
+}
+
+func handleAuthCallback(env string) {
+	//     To enable seamless auth
+	//     Redirects to login endpoint with callback url, runs and stops local server after waiting for MasonToken
+	openDocs(getTokenHost(env))
+	http.HandleFunc("/login", loginCallback(env))
+	http.ListenAndServe(TEMP_SERVER_PORT, nil)
+}
+
 func checkToken() Masonconfig {
 	var config Masonconfig
 	CONFIG_PATH := getConfigPath()
@@ -34,6 +74,21 @@ func checkToken() Masonconfig {
 		os.Exit(1)
 	}
 	return config
+}
+
+func writeConfig(env string, masonToken string) {
+	config := Masonconfig{MasonToken: masonToken, MasonEnv: env}
+	bytes, err := json.Marshal(config)
+	if err != nil {
+		println("Failed to set mason login credentials")
+		os.Exit(1)
+	}
+	success := writeFileJson(getConfigPath(), bytes)
+	if !success {
+		println("Failed to set mason login credentials")
+		os.Exit(1)
+	}
+	println("\nSuccessfully set Mason Login Creds")
 }
 
 func readFileJson(path string) []byte {
